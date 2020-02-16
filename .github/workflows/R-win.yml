@@ -35,7 +35,7 @@ jobs:
           tinytex:::is_tinytex()
           tinytex::tinytex_root()
           tinytex::tlmgr("--version")
-          cat("##[add-path]C:\Users\runneradmin\AppData\Roaming\TinyTeX\bin\win32")
+          cat("##[add-path]C:\\Users\\runneradmin\\AppData\\Roaming\\TinyTeX\\bin\\win32")
         shell: Rscript {0}
       - name: update PATH for all GHA step
         run : |
