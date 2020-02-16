@@ -18,59 +18,53 @@ jobs:
       CRAN: ${{ matrix.config.cran }}
       
     steps:
-    
       - uses: actions/checkout@master
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
-      # - name: Query dependencies
-      #   run: |
-      #     install.packages(c('remotes','tinytex','digest','processx'))
-      #     saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
-      #   shell: Rscript {0}
+      - name: Query dependencies
+        run: |
+          install.packages(c('remotes','digest','processx'))
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
+        shell: Rscript {0}
       - name: Install tinytex
         run: | 
           install.packages("tinytex")
           tinytex::install_tinytex(force = TRUE)
-          tinytex:::is_tinytex()
-          tinytex::tinytex_root()
-          tinytex::tlmgr("--version")
           cat("##[add-path]", tinytex::tinytex_root(), "\\bin\\win32", sep = "")
         shell: Rscript {0}
-      - name: update PATH for all GHA step
-        run : |
-          echo "##[add-path]C:\Users\runneradmin\AppData\Roaming\TinyTeX\bin\win32"
-          $env:PATH
-
-      - name: check pdflatex
+      # - name: update PATH for all GHA step
+      #   run : |
+      #     echo "##[add-path]C:\Users\runneradmin\AppData\Roaming\TinyTeX\bin\win32"
+      #     $env:PATH
+      # - name: check pdflatex
+      #   run: |
+      #     $env:PATH
+      #     (get-command pdflatex).Path
+      - name: update and add packages
         run: |
-          $env:PATH
-          (get-command pdflatex).Path
-
-      # - name: update and add packages
-      #   run: |
-      #     tinytex::tlmgr_update()
-      #     tinytex::tlmgr_install(c('standalone', 'xcolor', 'booktabs', 'multirow', 'amsmath', 'listings', 'setspace', 'caption', 'graphics', 'tools', 'psnfss', 'varwidth', 'colortbl', 'epstopdf-pkg', 'pgf'))
-      #   shell: Rscript {0}
+          tinytex::tlmgr_update()
+          tinytex::tlmgr_install(c('standalone', 'xcolor', 'booktabs', 'multirow', 'amsmath', 'listings', 'setspace', 'caption', 'graphics', 'tools', 'psnfss', 'varwidth', 'colortbl', 'epstopdf-pkg', 'pgf'))
+        shell: Rscript {0}
     
-      # - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@master
 
-      # - name: Install dependencies
-      #   run: |
-      #     library(remotes)
-      #     deps <- readRDS("depends.Rds")
-      #     deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
-      #     update(deps)
-      #     remotes::install_cran("rcmdcheck")
-      #   shell: Rscript {0}
-      #   
-      # - name: Check
-      #   run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning", check_dir = "check")
-      #   shell: Rscript {0}
-      # 
-      # - name: Upload check results
-      #   if: failure()
-      #   uses: actions/upload-artifact@master
-      #   with:
-      #     name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-      #     path: check
+      - name: Install dependencies
+        run: |
+          library(remotes)
+          deps <- readRDS("depends.Rds")
+          deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
+          update(deps)
+          remotes::install_cran("rcmdcheck")
+        shell: Rscript {0}
+
+      - name: Check
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning", check_dir = "check")
+        shell: Rscript {0}
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: check
