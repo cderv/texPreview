@@ -30,6 +30,14 @@ jobs:
           tinytex::tinytex_root()
           tinytex::tlmgr("--version")
         shell: Rscript {0}
+      - name: check TinyTex
+        run : tinytex:::is_tinytex()
+        shell: Rscript {0}
+      - name: update and add packages
+        run: |
+          tinytex::tlmgr_update()
+          tinytex::tlmgr_install(c('standalone', 'xcolor', 'booktabs', 'multirow', 'amsmath', 'listings', 'setspace', 'caption', 'graphics', 'tools', 'psnfss', 'varwidth', 'colortbl', 'epstopdf-pkg', 'pgf'))
+        shell: Rscript {0}
     
       # - uses: actions/checkout@v1
       # - uses: r-lib/actions/setup-tinytex@master
