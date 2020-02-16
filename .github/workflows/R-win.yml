@@ -31,16 +31,15 @@ jobs:
       - name: Install tinytex
         run: | 
           tinytex::install_tinytex(force = TRUE)
+          tinytex:::is_tinytex()
           tinytex::tinytex_root()
           tinytex::tlmgr("--version")
         shell: Rscript {0}
-      - name: check TinyTex
+      - name: update PATH for all GHA step
         run : |
-          Rscript -e 'tinytex:::is_tinytex()'
-          echo %PATH%
-          echo "::add-path::%APPDATA/TinyTeX"
-          where pdflatex
-        shell: cmd
+          echo "##[add-path]C:/Users/runneradmin/AppData/Roaming/TinyTeX"
+          $env:PATH
+          get-command pdflatex
       - name: update and add packages
         run: |
           tinytex::tlmgr_update()
