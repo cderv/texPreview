@@ -36,6 +36,7 @@ jobs:
         run: | 
           install.packages("tinytex")
           tinytex::install_tinytex(force = TRUE)
+          cat("##[add-path]", tinytex::tinytex_root(), "\\bin\\win32", sep = "")
         shell: Rscript {0}
       # - name: update PATH for all GHA step
       #   run : |
@@ -64,7 +65,7 @@ jobs:
 
       - name: Check
         run: |
-          tinytex::tlmgr_path("add")
+          # tinytex::tlmgr_path("add")
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
