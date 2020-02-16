@@ -22,6 +22,11 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
+      - name: cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-rlibs
       - name: Query dependencies
         run: |
           install.packages(c('remotes','digest','processx'))
