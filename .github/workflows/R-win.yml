@@ -36,7 +36,7 @@ jobs:
       - name: cache tinytex
         uses: actions/cache@v1
         with:
-          path: %env:APPDATA\TinyTex
+          path: C:\Users\runneradmin\AppData\Roaming\TinyTeX
           key: ${{ runner.os }}-tinytex
       - name: Install tinytex
         run: | 
