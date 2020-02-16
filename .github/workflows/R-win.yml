@@ -25,6 +25,7 @@ jobs:
           r-version: ${{ matrix.config.r }}
       - name: Install tinytex
         run: | 
+          install.packages("tinytex")
           tinytex::install_tinytex(force = TRUE)
           tinytex::tinytex_root()
           tinytex::tlmgr("--version")
