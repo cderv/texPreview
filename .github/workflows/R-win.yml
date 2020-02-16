@@ -23,11 +23,11 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
-      - name: Query dependencies
-        run: |
-          install.packages(c('remotes','tinytex','digest','processx'))
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
-        shell: Rscript {0}
+      # - name: Query dependencies
+      #   run: |
+      #     install.packages(c('remotes','tinytex','digest','processx'))
+      #     saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
+      #   shell: Rscript {0}
       - name: Install tinytex
         run: | 
           tinytex::install_tinytex(force = TRUE)
@@ -37,14 +37,16 @@ jobs:
         shell: Rscript {0}
       - name: update PATH for all GHA step
         run : |
+          echo "START PIPELINE"
           echo "##[add-path]C:\Users\runneradmin\AppData\Roaming\TinyTeX"
-          $env:PATH
-          get-command pdflatex
-      - name: update and add packages
-        run: |
-          tinytex::tlmgr_update()
-          tinytex::tlmgr_install(c('standalone', 'xcolor', 'booktabs', 'multirow', 'amsmath', 'listings', 'setspace', 'caption', 'graphics', 'tools', 'psnfss', 'varwidth', 'colortbl', 'epstopdf-pkg', 'pgf'))
-        shell: Rscript {0}
+          # $env:PATH
+          # get-command pdflatex
+
+      # - name: update and add packages
+      #   run: |
+      #     tinytex::tlmgr_update()
+      #     tinytex::tlmgr_install(c('standalone', 'xcolor', 'booktabs', 'multirow', 'amsmath', 'listings', 'setspace', 'caption', 'graphics', 'tools', 'psnfss', 'varwidth', 'colortbl', 'epstopdf-pkg', 'pgf'))
+      #   shell: Rscript {0}
     
       # - uses: r-lib/actions/setup-pandoc@master
 
