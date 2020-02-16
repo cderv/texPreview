@@ -39,12 +39,13 @@ jobs:
       - name: update PATH for all GHA step
         run : |
           echo "##[add-path]C:\Users\runneradmin\AppData\Roaming\TinyTeX"
-          echo "::add-path::C:\Users\runneradmin\AppData\Roaming\TinyTeX"
+          # echo "::add-path::C:\Users\runneradmin\AppData\Roaming\TinyTeX"
           # $env:PATH
-          # get-command pdflatex
+
       - name: check pdflatex
         run: |
           $env:PATH
+          (get-command pdflatex).Path
 
       # - name: update and add packages
       #   run: |
