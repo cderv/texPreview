@@ -23,12 +23,14 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
-      - uses: r-lib/actions/setup-tinytex@v1
-      - run: echo %PATH%
-      - run: tlmgr --version
+      - name: Install tinytex
+        run: | 
+          tinytex::install_tinytex(force = TRUE)
+          tinytex::tinytex_root()
+          tinytex::tlmgr("--version")
+        shell: Rscript {0}
     
       # - uses: actions/checkout@v1
-      # 
       # - uses: r-lib/actions/setup-tinytex@master
       # 
       # - uses: r-lib/actions/setup-r@master
