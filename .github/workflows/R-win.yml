@@ -30,6 +30,7 @@ jobs:
       #   shell: Rscript {0}
       - name: Install tinytex
         run: | 
+          install.packages("tinytex")
           tinytex::install_tinytex(force = TRUE)
           tinytex:::is_tinytex()
           tinytex::tinytex_root()
