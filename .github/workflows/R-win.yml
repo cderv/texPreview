@@ -39,6 +39,7 @@ jobs:
           Rscript -e 'tinytex:::is_tinytex()'
           echo %PATH%
           where pdflatex
+        shell: cmd
       - name: update and add packages
         run: |
           tinytex::tlmgr_update()
