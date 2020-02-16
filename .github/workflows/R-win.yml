@@ -29,13 +29,19 @@ jobs:
           key: ${{ runner.os }}-rlibs
       - name: Query dependencies
         run: |
-          install.packages(c('remotes','digest','processx'))
+          install.packages('remotes')
+          remotes::install_cran('digest','processx')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
         shell: Rscript {0}
+      - name: cache tinytex
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.APPDATA }}\TinyTex
+          key: ${{ runner.os }}-tinytex
       - name: Install tinytex
         run: | 
-          install.packages("tinytex")
-          tinytex::install_tinytex(force = TRUE)
+          remotes::install_cran("tinytex")
+          tinytex::install_tinytex()
           cat("::add-path::", tinytex::tinytex_root(), "\\bin\\win32", sep = "")
         shell: Rscript {0}
       # - name: update PATH for all GHA step
