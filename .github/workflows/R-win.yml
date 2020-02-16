@@ -38,6 +38,7 @@ jobs:
         run : |
           Rscript -e 'tinytex:::is_tinytex()'
           echo %PATH%
+          echo "::add-path::%APPDATA/TinyTeX"
           where pdflatex
         shell: cmd
       - name: update and add packages
