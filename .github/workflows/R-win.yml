@@ -30,7 +30,7 @@ jobs:
       - name: Query dependencies
         run: |
           install.packages('remotes')
-          remotes::install_cran('digest','processx')
+          remotes::install_cran(c('digest','processx'))
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
         shell: Rscript {0}
       - name: cache tinytex
