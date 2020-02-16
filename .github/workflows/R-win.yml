@@ -38,9 +38,8 @@ jobs:
         shell: Rscript {0}
       - name: update PATH for all GHA step
         run : |
-          echo "##[add-path]C:\Users\runneradmin\AppData\Roaming\TinyTeX"
-          # echo "::add-path::C:\Users\runneradmin\AppData\Roaming\TinyTeX"
-          # $env:PATH
+          echo "##[add-path]C:\Users\runneradmin\AppData\Roaming\TinyTeX\bin\win32"
+          $env:PATH
 
       - name: check pdflatex
         run: |
